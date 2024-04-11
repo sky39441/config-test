@@ -1,0 +1,109 @@
+nexcore:
+  sysprop:
+    NEXCORE_LOG_HOME: /fslog/fwk/nexcore/runtime/${spring.application.name}
+  database.charset: MS949 
+  recordset.recordCountMaxLimit: 10000
+  config.printBootupProperties: false
+  txtest.context-path: /nexcore
+  dbless.mode: true
+  sqlmanager:
+    dbms.product.name: oracle
+    nexcoreSchema: J2EE90_DEMO_FWK.
+    recordCountMaxLimit: 10000
+    recordCountMaxLimitPerPage: 1000
+    datasourceMapping.usingDb: false
+  component:
+    loaderType: fatjar
+  message.resourceBundles: message
+  flowlog.enabled: true
+  eventlog.write-to-fwklog: true
+  delayasync.enabled: false
+  async:
+    use-defaultQueueManager: true
+    use-afterCommit: false
+  txprofile:
+    timeoutDefaultValue: 60
+  txfilter:
+    - filterId: sys-filter
+      filterName: 시스템 선후처리
+      appRegex: .*
+      mainTransactionEnabled: true
+      linkTransactionEnabled: true
+      prevComponentId: nexbank.fwk.bfafprcss
+      prevUnitMethodId: FUBfAfPrcss.processBefore
+      prevRequiresNew: false
+      postComponentId: nexbank.fwk.bfafprcss
+      postUnitMethodId: FUBfAfPrcss.processAfter
+      postRequiresNew: false
+      errorPostComponentId: nexbank.fwk.bfafprcss
+      errorPostUnitMethodId: FUBfAfPrcss.processErrorAfter
+      errorPostFailIgnore: true
+    - filterId: bizcom-filter
+      filterName: 공통 선후처리
+      appRegex: .*
+      mainTransactionEnabled: true
+      linkTransactionEnabled: true
+      prevComponentId: nexbank.com.bfafprcss
+      prevUnitMethodId: FUBfAfPrcss.processBefore
+      prevRequiresNew: false
+      postComponentId: nexbank.com.bfafprcss
+      postUnitMethodId: FUBfAfPrcss.processAfter
+      postRequiresNew: false
+      errorPostComponentId: nexbank.com.bfafprcss
+      errorPostUnitMethodId: FUBfAfPrcss.processErrorAfter
+      errorPostFailIgnore: true
+  txblocking: # 거래통제
+    - id: 1
+      name: 거래차단
+      dateKind: 03
+      startDate: "*"
+      endDate: "*"
+      ruleExpression: "({txId/*거래ID*/} IN ['TX0002','TX0003'])"
+      runtimeNodeId: "*"
+      messageId: MSG1099
+      blockingYn: Y
+      dailyBlockingYn: Y
+    - id: 2
+      name: 특정사용자차단
+      dateKind: 02
+      startDate: 230000
+      endDate: 235959
+      ruleExpression: "({userInfo.loginId/*사용자ID*/} IN ['USER01','USER02','USER03'])"
+      runtimeNodeId: "*"
+      messageId: MSG1091
+      blockingYn: Y
+      dailyBlockingYn: N
+  datasource-mapping:
+    online:
+      "[.*_NOTX]": jdbc/BizDS_NOTX # yaml 에서 key 에 점(.) 문자를 사용할때는 [] 로 감싸야함
+      "[.*]":      jdbc/BizDS
+    batch:
+      "[.*_SmsDS]": jdbc/SmsDS
+      "[.*_READ]": jdbc/BizDS_READ
+      "[.*_NOTX]": jdbc/BizDS_NOTX
+      "[.*]":      jdbc/BizDS
+    batchonline:
+      "[.*_SmsDS]": jdbc/SmsDS
+      "[.*_NOTX]": jdbc/BizDS_NOTX
+      "[.*]":      jdbc/BizDS
+  sqlconfig:
+    - componentId: nexbank.prd.prdbase
+      sqlId: DUTB_PRD_PRDCD_M_00.selectList
+      readMaxLimit: 10000
+    - componentId: nexbank.dep.accbase
+      sqlId: DUTB_DEP_ACC_TRN_H_00.selectList
+      readMaxLimit: 10000
+  loglevel:
+    - logKind: O
+      logName: DEP01001
+      logLevel: DEBUG
+    - logKind: O
+      logName: DEP01010
+      logLevel: ERROR
+  runtime-config:
+    - CONFIG_ID: dbio.imageRecordEnabled
+      CONFIG_VALUE: false
+    - CONFIG_ID: runtime_key
+      CONFIG_VALUE: "기본값"
+    - CONFIG_ID: company_name
+      CONFIG_VALUE: "넥스뱅크 주식회사" 
