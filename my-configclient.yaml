@@ -1,0 +1,4 @@
+nexcore:
+  database:
+    charset: UTF-8
+
