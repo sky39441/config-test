@@ -4,7 +4,7 @@ spring:
       on-profile: dev
 
 today:
-  message: helloworld-dev-안녕하세요.똠펲됬.1234567890===
+  message: helloworld-dev-안녕하세요.똠펲됬.99999999===
   date: 20240422
 nexcore:
   database:
