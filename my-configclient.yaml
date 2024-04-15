@@ -1,7 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
 today:
-  message: helloworld안녕하세요. 똠펲됬
+  message: helloworld-dev-안녕하세요.똠펲됬
   date: 20240415
 nexcore:
   database:
     charset: UTF-8
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+today:
+  message: prod-운영안녕.. 
+  date: 20240444
+
+nexcore:
+  database:
+    charset: UTF-8
+
+
+
+
+
 
