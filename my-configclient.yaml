@@ -1,3 +1,7 @@
 today:
   message: helloworld
   date: 20240415
+nexcore:
+  database:
+    charset: UTF-8
+
