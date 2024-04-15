@@ -22,7 +22,7 @@ today:
 
 nexcore:
   database:
-    charset: UTF-8
+    charset: MS949
 
 
 
