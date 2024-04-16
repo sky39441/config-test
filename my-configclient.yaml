@@ -25,6 +25,19 @@ nexcore:
     charset: MS949
 
 
+---
+spring:
+  config:
+    activate:
+      on-profile: k8s
+
+today:
+  message: k8s 안녕.리프레시.34567890
+  date: 20240416
+
+nexcore:
+  database:
+    charset: MS949
 
 
 
