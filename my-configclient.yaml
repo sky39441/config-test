@@ -32,7 +32,7 @@ spring:
       on-profile: k8s
 
 today:
-  message: k8s 안녕.리프레시.34567890.펲시,똠방,됬다
+  message: k8s 안녕.1111
   date: 20240416
 
 nexcore:
